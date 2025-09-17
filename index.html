@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz da Saúde</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      width: 100%;
+      color: #fff;
+    }
+
+    .container {
+      display: none;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Figuras responsivas */
+    .figura {
+      position: absolute;
+      width: 8%;
+      max-width: 120px;
+      height: auto;
+    }
+
+    /* Retângulos */
+    .box {
+      background-color: rgba(215, 107, 115, 0.87);
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 10px;
+      max-width: 90%;
+    }
+
+    /* Botões */
+    button {
+      background-color: rgba(215, 107, 115, 0.87);
+      color: #fff;
+      font-size: 1.2em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    /* Opções do quiz */
+    .option {
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: rgba(215, 107, 115, 0.87);
+    }
+
+    .option:hover {
+      opacity: 0.9;
+    }
+
+    /* Página final */
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255,255,255,0.78);
+      z-index: 1;
+    }
+
+    .final-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (min-width: 768px) {
+      .figura { width: 6%; }
+      .box { max-width: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Página inicial -->
+  <div id="inicio" class="container active" style="background-color: #EDFFE9;">
+    <img src="figuras/tomate.png" class="figura" style="top:3%; left:3%;">
+    <img src="figuras/seringa.png" class="figura" style="top:3%; right:5%;">
+    <img src="figuras/pessoas.png" class="figura" style="top:12%; right:1%;">
+    <img src="figuras/menino.png" class="figura" style="left:2%; top:18%;">
+    <img src="figuras/musculoso.png" class="figura" style="left:2%; bottom:18%;">
+    <img src="figuras/menina.png" class="figura" style="right:2%; bottom:18%;">
+    <img src="figuras/cerebro.png" class="figura" style="right:3%; bottom:5%;">
+
+    <div class="box">
+      <h2>Afinal, o que é saúde pra você?</h2>
+    </div>
+    <button onclick="startQuiz()">Começar o Quiz</button>
+  </div>
+
+  <!-- Perguntas -->
+  <div id="quiz" class="container"></div>
+
+  <!-- Página final -->
+  <div id="final" class="container">
+    <div class="overlay"></div>
+    <img src="figuras/tomate.png" class="figura" style="top:3%; left:3%;">
+    <img src="figuras/seringa.png" class="figura" style="top:3%; right:5%;">
+    <img src="figuras/pessoas.png" class="figura" style="top:12%; right:1%;">
+    <img src="figuras/menino.png" class="figura" style="left:2%; top:18%;">
+    <img src="figuras/musculoso.png" class="figura" style="left:2%; bottom:18%;">
+    <img src="figuras/menina.png" class="figura" style="right:2%; bottom:18%;">
+    <img src="figuras/cerebro.png" class="figura" style="right:3%; bottom:5%;">
+
+    <div class="final-content">
+      <div class="box">
+        <h2>Resultado:</h2>
+        <p id="resultadoTexto">...</p>
+      </div>
+      <div class="box">
+        <h3>Mas afinal, o que é saúde?</h3>
+        <p>
+          Você já parou para pensar o que significa estar realmente saudável? Saúde não é apenas a ausência de doença.
+          É sentir equilíbrio no corpo e na mente, cultivar relações que nos fazem bem e viver em um ambiente que nos acolhe.<br><br>
+          É também sobre escolhas conscientes: o que você come, como se movimenta, como cuida das suas emoções e do mundo ao seu redor.
+          Cada decisão pequena faz diferença.<br><br>
+          Cuidar da saúde é cuidar de si e de tudo ao seu redor. É uma jornada diária de atenção, respeito e conexão.
+          O que você pode fazer hoje para se sentir mais vivo, mais presente e mais em harmonia consigo mesmo e com os outros?<br><br>
+          Saúde é a soma de pequenas escolhas que transformam sua vida todos os dias.
+        </p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const perguntas = [
+    { pergunta: "O que mais representa saúde para você?", opcoes: ["Não sentir dor ou doença","Estar feliz consigo mesmo","Ter amigos e vínculos sociais","Equilíbrio entre corpo, mente e natureza"], fundo:"#FFC749" },
+    { pergunta: "Quando pensa em saúde, você lembra primeiro de:", opcoes: ["Ir ao médico e fazer exames","Praticar esportes e cuidar da alimentação","Participar de atividades em grupo","Momentos de reflexão e espiritualidade"], fundo:"#10719C" },
+    { pergunta: "O maior desafio para a saúde hoje é:", opcoes: ["Evitar doenças","Cuidar do estresse e da mente","Desigualdade social","A falta de conexão com a natureza"], fundo:"#FF94D6" },
+    { pergunta: "Quando alguém está saudável, isso significa:", opcoes: ["Não tem nenhum problema físico","Se sente bem e disposto","Consegue viver bem em sociedade","Se sente em harmonia com tudo ao redor"], fundo:"#00BF63" },
+    { pergunta: "Qual frase mais combina com saúde?", opcoes: ["Ausência de doenças","Estar feliz consigo mesmo","Viver bem em comunidade","Equilíbrio entre corpo, mente, espírito e ambiente"], fundo:"#FF9629" }
+  ];
+
+  const resultados = [
+    "Saúde Tradicional: você entende saúde como ausência de doenças ou dores. Esse é o modelo mais comum, mas incompleto.",
+    "Saúde como Bem-estar Individual: você associa saúde a se sentir feliz e em paz consigo mesmo.",
+    "Saúde Coletiva/Social: para você, saúde está ligada a relações, vínculos e vida em comunidade.",
+    "Saúde Integral/Existencial: você acredita em saúde como equilíbrio entre corpo, mente, espírito, ambiente e conexões."
+  ];
+
+  let respostas = [];
+  let perguntaAtual = 0;
+
+  function startQuiz() {
+    document.getElementById("inicio").classList.remove("active");
+    document.getElementById("quiz").classList.add("active");
+    mostrarPergunta();
+  }
+
+  function mostrarPergunta() {
+    const quiz = document.getElementById("quiz");
+    quiz.innerHTML = "";
+    quiz.style.backgroundColor = perguntas[perguntaAtual].fundo;
+
+    const box = document.createElement("div");
+    box.className = "box";
+
+    const h2 = document.createElement("h2");
+    h2.innerText = perguntas[perguntaAtual].pergunta;
+    box.appendChild(h2);
+
+    perguntas[perguntaAtual].opcoes.forEach((opcao,index)=>{
+      const btn = document.createElement("div");
+      btn.className = "option";
+      btn.innerText = opcao;
+      btn.onclick = ()=> selecionarResposta(index);
+      box.appendChild(btn);
+    });
+
+    quiz.appendChild(box);
+  }
+
+  function selecionarResposta(indice) {
+    respostas.push(indice);
+    if(perguntaAtual<perguntas.length-1){
+      perguntaAtual++;
+      mostrarPergunta();
+    }else{
+      mostrarResultado();
+    }
+  }
+
+  function mostrarResultado() {
+    document.getElementById("quiz").classList.remove("active");
+    document.getElementById("final").classList.add("active");
+
+    const contagem = [0,0,0,0];
+    respostas.forEach(r=> contagem[r]++);
+    const maior = contagem.indexOf(Math.max(...contagem));
+
+    document.getElementById("resultadoTexto").innerText = resultados[maior];
+  }
+</script>
+
+</body>
+</html>
